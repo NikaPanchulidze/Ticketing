@@ -47,7 +47,6 @@ async (req: Request, res: Response, next: NextFunction) => {
   };
 
   res.status(201).send(user);
-  
 });
 
 export { router as signupRouter };
