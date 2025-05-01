@@ -4,14 +4,25 @@ import { TicketAttrs } from "./ticket"
 
 export { OrderStatus };
 
-export interface OrderAttrs extends Document {
+export interface OrderAttrs {
   userId: string;
   status: OrderStatus;
   expiresAt: Date;
   ticket: TicketAttrs;
 }
 
-const orderSchema = new mongoose.Schema<OrderAttrs>({
+interface OrderDoc extends mongoose.Document {
+  userId: string;
+  status: OrderStatus;
+  expiresAt: Date;
+  ticket: TicketAttrs;
+}
+
+interface OrderModel extends mongoose.Model<OrderDoc> {
+  build(attrs: OrderAttrs): OrderDoc;
+}
+
+const orderSchema = new mongoose.Schema<OrderDoc>({
   userId: {
     type: String,
     required: true
@@ -40,6 +51,10 @@ const orderSchema = new mongoose.Schema<OrderAttrs>({
   }
 });
 
-const Order = mongoose.model<OrderAttrs>("Order", orderSchema);
+orderSchema.statics.build = (attrs: OrderAttrs) => {
+  return new Order(attrs);
+}
+
+const Order = mongoose.model<OrderDoc, OrderModel>("Order", orderSchema);
 
 export { Order };

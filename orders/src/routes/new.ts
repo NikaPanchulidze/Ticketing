@@ -4,6 +4,8 @@ import { BadRequestError, NotFoundError, OrderStatus, requireAuth, validateReque
 import { body } from "express-validator";
 import { Ticket } from "../models/ticket";
 import { Order } from "../models/order";
+import { OrderCreatedPublisher } from "../events/publishers/order-created-publisher";
+import { natsWrapper } from "../nats-wrapper";
 
 const router = express.Router();
 
@@ -26,7 +28,6 @@ async (req: Request, res: Response) => {
     throw new NotFoundError();
   }
 
-
   // Make sure that this ticket is not already reserved
   // Run query to look at all orders. Find an order where the ticket
   // is the ticket we just found *and* the orders status is *not cancelled*.
@@ -43,7 +44,7 @@ async (req: Request, res: Response) => {
   expiration.setSeconds(expiration.getSeconds() + EXPIRATION_WINDOW_SECONDS);
 
   // Build the order and save it to the database 
-  const order = new Order({
+  const order = Order.build({
     userId: req.currentUser!.id,
     status: OrderStatus.Created,
     expiresAt: expiration,
@@ -53,6 +54,16 @@ async (req: Request, res: Response) => {
   await order.save();
 
   // Publish an event saying that an order was created
+  new OrderCreatedPublisher(natsWrapper.client).publish({
+    id: order.id,
+    status: order.status,
+    userId: order.userId,
+    expiresAt: order.expiresAt.toISOString(),
+    ticket: {
+      id: ticket.id,
+      price: ticket.price
+    }
+  })
 
   res.status(201).send(order);
 })

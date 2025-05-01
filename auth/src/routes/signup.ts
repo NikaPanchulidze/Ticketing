@@ -1,6 +1,6 @@
 import express, { NextFunction, Request, Response } from "express";
 import { body, validationResult } from "express-validator";
-import { User, UserAttrs } from "../models/user";
+import { User } from "../models/user";
 import jwt from "jsonwebtoken";
 import { BadRequestError, validateRequest } from "@npticketing/common";
 
@@ -27,7 +27,7 @@ async (req: Request, res: Response, next: NextFunction) => {
     throw new BadRequestError("Email in use");
   }
 
-  const user = new User({
+  const user = User.build({
     email,
     password
   })

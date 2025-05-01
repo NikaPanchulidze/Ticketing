@@ -18,7 +18,7 @@ router.post("/api/tickets", requireAuth, [
 ], validateRequest, async (req: Request, res: Response) => {
   const { title, price } = req.body;
 
-  const ticket = new Ticket({
+  const ticket = Ticket.build({
     title,
     price,
     userId: req.currentUser!.id
