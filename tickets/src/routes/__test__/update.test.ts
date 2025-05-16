@@ -2,6 +2,7 @@ import request from "supertest";
 import { app } from "../../app";
 import mongoose from "mongoose";
 import { natsWrapper } from "../../nats-wrapper";
+import { Ticket } from "../../models/ticket";
 
 it("returns a 404 if the provided id does not exist", async () => {
   const id = new mongoose.Types.ObjectId().toHexString();
@@ -57,7 +58,7 @@ it("returns a 400 if the user provides an invalid title or price", async () => {
     });
 
   await request(app)
-    .put(`api/tickets/${response.body.id}`)
+    .put(`/api/tickets/${response.body.id}`)
     .set("Cookie", cookie)
     .send({
       title: "",
@@ -66,7 +67,7 @@ it("returns a 400 if the user provides an invalid title or price", async () => {
     .expect(400);
 
   await request(app)
-    .put(`api/tickets/${response.body.id}`)
+    .put(`/api/tickets/${response.body.id}`)
     .set("Cookie", cookie)
     .send({
       title: "dqwds",
@@ -100,7 +101,7 @@ it("updates the ticket provided with right inputs", async () => {
     .send();
 
   expect(ticketResponse.body.title).toEqual("new title");
-  expect(ticketResponse.body.title).toEqual(100);
+  expect(ticketResponse.body.price).toEqual(100);
 });
 
 it("publishes an event", async () => {
@@ -125,3 +126,27 @@ it("publishes an event", async () => {
 
     expect(natsWrapper.client.publish).toHaveBeenCalled();
 })
+
+it("rejects updates if the ticket is reserved", async () => {
+  const cookie = global.signin();
+
+  const response = await request(app)
+    .post("/api/tickets")
+    .set("Cookie", cookie)
+    .send({
+      title: "qdsadqw",
+      price: 20
+    });
+
+  const ticket = await Ticket.findById(response.body.id);
+  ticket!.set({ orderId: new mongoose.Types.ObjectId().toHexString() });
+
+  await request(app)
+    .put(`/api/tickets/${response.body.id}`)
+    .set("Cookie", cookie)
+    .send({
+      title: "new title",
+      price: 100
+    })
+    .expect(400);
+});
