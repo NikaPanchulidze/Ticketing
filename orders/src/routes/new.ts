@@ -11,7 +11,9 @@ const router = express.Router();
 
 const EXPIRATION_WINDOW_SECONDS = 15 * 60;
 
-router.post("/api/orders", requireAuth, [
+router.post("/api/orders", 
+requireAuth, 
+[
   body('ticketId')
     .not()
     .isEmpty()
@@ -31,7 +33,7 @@ async (req: Request, res: Response) => {
   // Make sure that this ticket is not already reserved
   // Run query to look at all orders. Find an order where the ticket
   // is the ticket we just found *and* the orders status is *not cancelled*.
-  // If we find an order from taht means thr ticket *is* reserved
+  // If we find an order from that means thr ticket *is* reserved
 
   const isReserved = await ticket.isReserved();
 
