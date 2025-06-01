@@ -8,7 +8,7 @@ declare global {
 
 let mongo: any;
 
-process.env.STRIPE_KEY = "sk_test_id"
+process.env.STRIPE_KEY = "sk_dummy_id"
 
 beforeAll(async () => {
   process.env.JWT_KEY = "asdf";
