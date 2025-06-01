@@ -8,6 +8,8 @@ declare global {
 
 let mongo: any;
 
+process.env.STRIPE_KEY = "sk_test_51PM8xaDXCd7QZHzlPIprHT6tERWXUvOFUVM9M4Ok2kl5asyyVi7mPpzzm063Lon0DLoMnsORJoegcQvealFJoRyX00QdNP2PHT"
+
 beforeAll(async () => {
   process.env.JWT_KEY = "asdf";
 
