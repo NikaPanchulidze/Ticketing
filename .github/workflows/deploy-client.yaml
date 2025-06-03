@@ -1,0 +1,19 @@
+name: deploy-client
+on:
+    push:
+        branches: 
+            - main 
+        paths: 
+            - 'client/**'
+jobs: 
+    build:
+        runs-on: ubuntu-latest 
+        steps: 
+            - uses: actions/checkout@v2 
+            - run: cd client && docker build -t nikapanchulidze/client .
+            - 
+              uses: docker/login-action@v1 
+              with: 
+                 username: ${{ secrets.DOCKER_USERNAME }}
+                 password: ${{ secrets.DOCKERHUB_TOKEN }} 
+            - run: docker push nikapanchulidze/client
