@@ -1,1 +1,1 @@
-# Ticketing
+This is a full-stack ticketing platform that allows users to create, list, purchase, and manage event tickets. The application is built using a microservices architecture, where each service is independently deployable, containerized with Docker, and orchestrated using Kubernetes. It leverages NATS Streaming for event-driven communication between services and MongoDB for persistence. This project was designed to explore the patterns and best practices of building distributed systems in production-like environments.
