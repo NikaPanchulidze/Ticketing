@@ -104,11 +104,16 @@ If errors appear in the wsl2, try to restart Skaffold again.
   ticketing.dev
   ```
 
+## Manual testing
+You can use already written tests to check if code works properly.
 
+1. **Navigate to the desired service:**
+   ```bash
+   cd ticketing
 
-
-
-
+2. **Start jest and wait:**
+   ```bash
+   npm run test
 
 
 
