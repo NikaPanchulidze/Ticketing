@@ -97,7 +97,7 @@ If errors appear in the wsl2, try to restart Skaffold again.
   kubectl port-forward <nats-depl-58c6f87dff-nz9zr> 4222:4222
   ```
 
-## You can now test application from browser
+## You can now test application in browser
 
 **Write in url:**
   ```
