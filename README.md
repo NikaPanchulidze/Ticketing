@@ -114,7 +114,7 @@ You can use already written tests to check if code works properly.
 2. **Start jest and wait:**
    ```bash
    npm run test
-
+   ```
 
 
 
