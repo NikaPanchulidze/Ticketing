@@ -47,6 +47,7 @@ Make sure you only use WSL2 (If you are on Windows) for command line
 2. **Navigate to the Project Directory:**
    ```
    cd Ticketing
+   ```
 
 ## ⚠️ **ATTENTION:** 
 Before running or deploying this application locally, ensure you have the following tools installed and properly configured:
@@ -59,6 +60,7 @@ Before running or deploying this application locally, ensure you have the follow
 3. **Change local host port to domain name:**
    ```
    sudo nano /mnt/c/Windows/System32/drivers/etc/hosts
+   ```
 
 Add:
 127.0.0.1 ticketing.dev
