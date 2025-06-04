@@ -66,14 +66,20 @@ Add:
 4. **Create Kubectl secrets:**
   ```
   kubectl create secret generic jwt-secret --from-literal=JWT_KEY=asdf
+  ```
 
+  ```
   kubectl create secret generic stripe-secret --from-literal STRIPE_KEY=sk_test_51PM8xaDXCd7QZHzlPIprHT6tERWXUvOFUVM9M4Ok2kl5asyyVi7mPpzzm063Lon0DLoMnsORJoegcQvealFJoRyX00QdNP2PHT
+  ```
   
+  ```
   kubectl create secret generic stripe-pub-secret --from-literal NEXT_PUBLIC_STRIPE_KEY=pk_test_51PM8xaDXCd7QZHzlCEdvy5Rj9PJeeewLauRxACV5PAPcLm9J2m7nln5KQwNK2dcINz3L8y4BPkU1LPttUfCgQreH00cnLfL55H
+  ```
 
 5. **Start Kubernetes Cluster**
   ```
   skaffold dev
+  ```
 
 
 ## ⚠️ **ATTENTION:** 
@@ -82,10 +88,12 @@ If errors appear in the wsl2, try to restart Skaffold again.
 6. **Open new tab in terminal and write**
   ```
   kubectl get pods
+  ```
 
 7. **Copy pod's name which starts with "nats" and write this command**
   ```
   kubectl port-forward <nats-depl-58c6f87dff-nz9zr> 4222:4222
+  ```
 
 ## You can now test application from browser
 
